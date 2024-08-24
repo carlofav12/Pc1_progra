@@ -27,6 +27,8 @@ namespace practica1.Models
         {
             decimal igv = 0.18m;
             decimal totPag = 0;
+            decimal igvMonto = MontoAbono * igv;
+            totPag += igvMonto + MontoAbono;
 
             foreach (var instrumento in Operacion ?? new List<string>())
             {
@@ -39,20 +41,18 @@ namespace practica1.Models
                 };
 
                 decimal igvIns = precio * igv;
-                decimal montoIgv = MontoAbono + igvIns;
-                totPag += montoIgv;
-
+                decimal montoIns = Math.Round(precio, 2);
 
                 Resultados.Add(new ResultadoOper
                 {
                     Nombre = instrumento,
-                    Monto = precio,
-                    Igv = precio * igv,
+                    Monto = montoIns,
+                    Igv = igvIns,
                     FechaOperacion = FechaOperacion
                 });
 
                 //comision
-                decimal comision = MontoAbono <= 300 ? 1 : 3;
+                decimal comision = MontoAbono <= 300 ? 3 : 1;
                 totPag += comision;
 
                 TotalPag = totPag;
