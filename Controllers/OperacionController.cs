@@ -25,6 +25,14 @@ namespace practica1.Controllers
 
         public IActionResult Operar(Operaciones operaciones)
         {
+            if (operaciones.Operacion == null || operaciones.Operacion.Count == 0)
+            {
+                ModelState.AddModelError("Operacion", "Debe seleccionar al menos un instrumento");
+                return View("Index");
+            }
+
+            operaciones.CalcularInversion();
+            ViewBag.TotalPag = operaciones.TotalPag;
             return View("Index");
         }
 
