@@ -16,7 +16,7 @@
     </div><br />
     <div>
         <label asp-for="MontoAbono">Monto a abonar</label>
-        <input asp-for="MontoAbono" required />
+        <input asp-for="MontoAbono" type="number" required />
     </div><br />
     <div>
         <label> Intrumentos:</label>
@@ -40,12 +40,13 @@
 @if (Model.Resultados != null && Model.Resultados.Count > 0)
 {
     <h2>Resultados</h2>
-    <table>
+    <table border="1">
         <thead>
             <tr>
                 <th>Instrumento</th>
                 <th>Monto</th>
                 <th>Igv(18%)</th>
+                <th>Fecha de Operacion</th>
             </tr>
         </thead>
         <tbody>
@@ -55,6 +56,7 @@
                     <td>@item.Nombre</td>
                     <td>@item.Monto</td>
                     <td>@item.Igv</td>
+                    <th>@item.FechaOperacion</th>
                 </tr>
             }
     </table>

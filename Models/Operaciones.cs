@@ -25,12 +25,12 @@ namespace practica1.Models
         public List<ResultadoOper> Resultados { get; private set; }
         public void CalcularInversion()
         {
-            decimal totPag = MontoAbono;
             decimal igv = 0.18m;
+            decimal totPag = 0;
 
             foreach (var instrumento in Operacion ?? new List<string>())
             {
-                decimal monto = instrumento switch
+                decimal precio = instrumento switch
                 {
                     "S&P 500" => 500,
                     "Dow jones" => 300,
@@ -38,23 +38,25 @@ namespace practica1.Models
                     _ => 0
                 };
 
-                decimal igvAp = monto * igv;
-                totPag += monto + igvAp;
+                decimal igvIns = precio * igv;
+                decimal montoIgv = MontoAbono + igvIns;
+                totPag += montoIgv;
+
 
                 Resultados.Add(new ResultadoOper
                 {
                     Nombre = instrumento,
-                    Monto = monto,
-                    Igv = igvAp
+                    Monto = precio,
+                    Igv = precio * igv,
+                    FechaOperacion = FechaOperacion
                 });
 
+                //comision
+                decimal comision = MontoAbono <= 300 ? 1 : 3;
+                totPag += comision;
+
+                TotalPag = totPag;
             }
-
-            //comision
-            decimal comision = MontoAbono <= 300 ? 1 : 3;
-            totPag += comision;
-
-            TotalPag = totPag;
         }
 
     }
@@ -64,5 +66,6 @@ namespace practica1.Models
         public string? Nombre { get; set; }
         public decimal Igv { get; set; }
         public decimal Monto { get; set; }
+        public DateTime FechaOperacion { get; set; }
     }
 }
