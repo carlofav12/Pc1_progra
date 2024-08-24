@@ -20,20 +20,21 @@ namespace practica1.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new Operaciones();
+            return View(model);
         }
 
+        [HttpPost]
         public IActionResult Operar(Operaciones operaciones)
         {
             if (operaciones.Operacion == null || operaciones.Operacion.Count == 0)
             {
                 ModelState.AddModelError("Operacion", "Debe seleccionar al menos un instrumento");
-                return View("Index");
+                return View("Index", operaciones);
             }
 
             operaciones.CalcularInversion();
-            ViewBag.TotalPag = operaciones.TotalPag;
-            return View("Index");
+            return View("Index", operaciones);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
